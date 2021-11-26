@@ -1,9 +1,6 @@
 package concurrentcube;
 
-import java.util.EnumMap;
-import java.util.Map;
-
-public enum Side {
+public enum Direction {
     Up(Color.White),
     Left(Color.Green),
     Front(Color.Red),
@@ -13,7 +10,7 @@ public enum Side {
 
     private final Color initialColor;
 
-    Side(Color color) {
+    Direction(Color color) {
         initialColor = color;
     }
 

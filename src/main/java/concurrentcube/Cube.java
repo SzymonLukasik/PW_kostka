@@ -1,16 +1,14 @@
 package concurrentcube;
 
-import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Cube {
     private final int size;
-    private final EnumMap<Side, Face> faces;
+    private final EnumMap<Direction, Face> faces;
 
     public Cube(int size,
                 BiConsumer<Integer, Integer> beforeRotation,
@@ -18,16 +16,16 @@ public class Cube {
                 Runnable beforeShowing,
                 Runnable afterShowing) {
         this.size = size;
-        faces = Arrays.stream(Side.values())
+        faces = Arrays.stream(Direction.values())
             .collect(Collectors.toMap(
                 Function.identity(),
                 this::initializeFace,
                 (l, r) -> {throw new IllegalArgumentException();}, // This will not happen.
-                () -> new EnumMap<>(Side.class)));
+                () -> new EnumMap<>(Direction.class)));
     }
 
-    private Face initializeFace(Side side) {
-        return side !=  Side.Bottom ?
+    private Face initializeFace(Direction side) {
+        return side !=  Direction.Bottom ?
             new Face(size, side.getInitialColor()) :
             new ReversedFace(size, side.getInitialColor());
     }
