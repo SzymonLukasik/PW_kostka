@@ -1,6 +1,5 @@
 package concurrentcube;
 
-import java.util.ArrayList;
 import java.util.ListIterator;
 
 public class ReversedFace extends Face {
@@ -12,10 +11,9 @@ public class ReversedFace extends Face {
 
     public String toString() {
         StringBuilder s = new StringBuilder();
-        ListIterator<ArrayList<Color>> row_iterator = panels.listIterator(size);
-        ListIterator<Color> panel_iterator;
+        ListIterator<PanelSeries> row_iterator = panels.listIterator(size);
         while (row_iterator.hasPrevious()) {
-            panel_iterator = row_iterator.previous().listIterator(size);
+            ListIterator<Color> panel_iterator = row_iterator.previous().getPanels().listIterator(size);
             while (panel_iterator.hasPrevious())
                 s.append(panel_iterator.previous());
             s.append("\n");

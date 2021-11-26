@@ -18,6 +18,13 @@ public enum Direction {
         return initialColor;
     }
 
+    public boolean isFrontBack() {
+        return this == Direction.Front || this == Direction.Back;
+    }
+
+    public static Direction getDirection(int index) {
+        return values()[index];
+    }
     @Override
     public String toString() {
         return Integer.valueOf(ordinal()).toString();
