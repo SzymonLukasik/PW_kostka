@@ -20,19 +20,13 @@ public class Face {
     }
 
     public PanelSeries getColumn(int index) {
-        return new PanelSeries(IntStream.range(0, size - 1)
+        return new PanelSeries(IntStream.range(0, size)
             .mapToObj(row_idx -> panels.get(row_idx).getPanel(index))
             .collect(Collectors.toCollection(ArrayList::new)));
     }
 
-    @Override
-    public String toString() {
-        StringBuilder s = new StringBuilder();
-        for (PanelSeries row : panels) {
-            for (Color panel : row.getPanels())
-                s.append(panel);
-            s.append("\n");
-        }
-        return s.toString();
+    public StringBuilder toStringBuilder() {
+        return panels.stream().map(PanelSeries::toStringBuilder)
+            .reduce(new StringBuilder(), StringBuilder::append);
     }
 }

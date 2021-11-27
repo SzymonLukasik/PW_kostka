@@ -1,10 +1,14 @@
 package concurrentcube;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Cube {
     private final int size;
@@ -61,7 +65,28 @@ public class Cube {
     }
 
     public String show() throws InterruptedException {
-        return faces.values().stream().map(Face::toString).collect(Collectors.joining("\n"));
+        return this.toPrettyStringBuilder().toString();
+    }
+
+    public StringBuilder toStringBuilder() {
+        return faces.values().stream().map(Face::toStringBuilder)
+            .reduce(new StringBuilder(), StringBuilder::append);
         //return faces.values().stream().reduce(new StringBuilder(), (s, face) -> s.append(face.toString())).toString();
+    }
+
+    public StringBuilder toPrettyStringBuilder() {
+        Face blank_face = new Face(size, Color.Blank);
+        Stream<Supplier<Stream<Face>>> levels_stream = Stream.of(
+            () -> Stream.of(blank_face, faces.get(Direction.Up)),
+            () -> Stream.of(faces.get(Direction.Left), faces.get(Direction.Front),
+                faces.get(Direction.Right), faces.get(Direction.Back)),
+            () -> Stream.of(blank_face, faces.get(Direction.Bottom)));
+
+        return levels_stream.map(faces_stream -> IntStream.range(0, size).mapToObj(
+            index -> faces_stream.get().map(face -> face.panels.get(index))
+                .map(PanelSeries::toPrettyStringBuilder)
+                .reduce(new StringBuilder(), StringBuilder::append))
+            .reduce(new StringBuilder(), (collector, row_string_builder) -> collector.append(row_string_builder).append("\n")))
+            .reduce(new StringBuilder(), StringBuilder::append);
     }
 }

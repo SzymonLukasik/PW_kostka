@@ -14,7 +14,7 @@ public class CenterAxisFace extends AxisFace {
     }
 
     void rotateClockwise() {
-        face.panels = IntStream.range(0, size - 1)
+        face.panels = IntStream.range(0, size)
             .mapToObj(col_idx -> face.getColumn(col_idx))
             .collect(Collectors.toCollection(ArrayList::new));
         for (PanelSeries row : face.panels)

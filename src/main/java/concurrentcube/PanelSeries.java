@@ -31,4 +31,22 @@ public class PanelSeries {
         s1.panels = s2.panels;
         s2.panels = temp;
     }
+
+    public StringBuilder toStringBuilder() {
+        return panels.stream().collect(
+            StringBuilder::new,
+            StringBuilder::append,
+            StringBuilder::append)
+            .append("\n");
+    }
+
+    public StringBuilder toPrettyStringBuilder() {
+        return panels.stream()
+            .map(Color::toPrettyString)
+            .collect(
+                StringBuilder::new,
+                StringBuilder::append,
+                StringBuilder::append)
+            .append(" ");
+    }
 }
