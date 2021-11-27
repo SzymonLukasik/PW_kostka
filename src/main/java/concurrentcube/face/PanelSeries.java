@@ -1,24 +1,26 @@
-package concurrentcube;
+package concurrentcube.face;
+
+import concurrentcube.Color;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class PanelSeries {
-    private ArrayList<Color> panels;
+    private ArrayList<concurrentcube.Color> panels;
 
-    public PanelSeries(ArrayList<Color> panels) {
+    public PanelSeries(ArrayList<concurrentcube.Color> panels) {
         this.panels = panels;
     }
 
-    public ArrayList<Color> getPanels() {
+    public ArrayList<concurrentcube.Color> getPanels() {
         return panels;
     }
 
-    public Color getPanel(int index) {
+    public concurrentcube.Color getPanel(int index) {
         return panels.get(index);
     }
 
-    public void setPanel(int index, Color color) {
+    public void setPanel(int index, concurrentcube.Color color) {
         panels.set(index, color);
     }
 
@@ -26,8 +28,8 @@ public class PanelSeries {
         Collections.reverse(panels);
     }
 
-    static void swap(PanelSeries s1, PanelSeries s2) {
-        ArrayList<Color> temp = s1.panels;
+    public static void swap(PanelSeries s1, PanelSeries s2) {
+        ArrayList<concurrentcube.Color> temp = s1.panels;
         s1.panels = s2.panels;
         s2.panels = temp;
     }

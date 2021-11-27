@@ -1,6 +1,10 @@
 package concurrentcube;
 
-import java.util.ArrayList;
+import concurrentcube.axis.Axis;
+import concurrentcube.face.Face;
+import concurrentcube.face.HorizontallyReversedFace;
+import concurrentcube.face.VerticallyReversedFace;
+
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.BiConsumer;
@@ -13,7 +17,7 @@ import java.util.stream.Stream;
 public class Cube {
     private final int size;
     private final EnumMap<Direction, Face> faces;
-    private final Axis upAxis, leftAxis, frontAxis;
+    private final Axis upAxis, leftAxis, backAxis;
     public Cube(int size,
                 BiConsumer<Integer, Integer> beforeRotation,
                 BiConsumer<Integer, Integer> afterRotation,
@@ -28,13 +32,21 @@ public class Cube {
                 () -> new EnumMap<>(Direction.class)));
         upAxis = Axis.getUpAxis(size, faces);
         leftAxis = Axis.getLeftAxis(size, faces);
-        frontAxis = Axis.getFrontAxis(size, faces);
+        backAxis = Axis.getBackAxis(size, faces);
     }
 
     private Face initializeFace(Direction side) {
-        return side !=  Direction.Bottom ?
-            new Face(size, side.getInitialColor()) :
-            new ReversedFace(size, side.getInitialColor());
+        switch (side) {
+            case Up:
+            case Left:
+            case Front:
+                return new Face(size, side.getInitialColor());
+            case Right:
+            case Back:
+                return new HorizontallyReversedFace(size, side.getInitialColor());
+            default: // Bottom
+                return new VerticallyReversedFace(size, side.getInitialColor());
+        }
     }
 
     private Axis getAxis(Direction direction) {
@@ -46,7 +58,7 @@ public class Cube {
             case Right:
                 return leftAxis;
             default:
-                return frontAxis;
+                return backAxis;
         }
     }
 
@@ -65,7 +77,8 @@ public class Cube {
     }
 
     public String show() throws InterruptedException {
-        return this.toPrettyStringBuilder().toString();
+        System.out.println(toPrettyStringBuilder());
+        return toStringBuilder().toString();
     }
 
     public StringBuilder toStringBuilder() {
@@ -83,8 +96,7 @@ public class Cube {
             () -> Stream.of(blank_face, faces.get(Direction.Bottom)));
 
         return levels_stream.map(faces_stream -> IntStream.range(0, size).mapToObj(
-            index -> faces_stream.get().map(face -> face.panels.get(index))
-                .map(PanelSeries::toPrettyStringBuilder)
+            index -> faces_stream.get().map(face -> face.getRowPrettyStringBuilder(index))
                 .reduce(new StringBuilder(), StringBuilder::append))
             .reduce(new StringBuilder(), (collector, row_string_builder) -> collector.append(row_string_builder).append("\n")))
             .reduce(new StringBuilder(), StringBuilder::append);

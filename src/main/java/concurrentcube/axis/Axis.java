@@ -1,9 +1,13 @@
-package concurrentcube;
+package concurrentcube.axis;
 
-import java.util.AbstractMap;
+import concurrentcube.*;
+import concurrentcube.axis.axisface.CenterAxisFace;
+import concurrentcube.axis.axisface.ColumnAxisFace;
+import concurrentcube.axis.axisface.RowAxisFace;
+import concurrentcube.axis.axisface.SideAxisFace;
+import concurrentcube.face.Face;
+
 import java.util.EnumMap;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Axis {
@@ -44,14 +48,14 @@ public class Axis {
             new ColumnAxisFace(faces.get(Direction.Back)));
     }
 
-    public static Axis getFrontAxis(int size, EnumMap<Direction, Face> faces) {
+    public static Axis getBackAxis(int size, EnumMap<Direction, Face> faces) {
         return new Axis(size,
-            new CenterAxisFace(faces.get(Direction.Front)),
             new CenterAxisFace(faces.get(Direction.Back)),
+            new CenterAxisFace(faces.get(Direction.Front)),
             new RowAxisFace(faces.get(Direction.Up)),
-            new ColumnAxisFace(faces.get(Direction.Right)),
+            new ColumnAxisFace(faces.get(Direction.Left)),
             new RowAxisFace(faces.get(Direction.Bottom)),
-            new ColumnAxisFace(faces.get(Direction.Left)));
+            new ColumnAxisFace(faces.get(Direction.Right)));
     }
 
 
@@ -65,10 +69,16 @@ public class Axis {
     public void rotateSeries(Rotation rotation, int index) {
         getRotationFacesStream(rotation)
             .reduce(
-                upFace.getPanelsSerie(index),
-                (panelsSeries, sideAxisFace) -> sideAxisFace.switchPanelsSerie(panelsSeries, index),
+                upFace.getPanelSeries(index),
+                (panelsSeries, sideAxisFace) -> sideAxisFace.switchPanelSeries(panelsSeries, index),
                 (oldPanelSeries, newPanelSeries) -> newPanelSeries);
-
+        if (rotation == Rotation.Clockwise) {
+            upFace.reversePanelSeries(index);
+            bottomFace.reversePanelSeries(index);
+        } else {
+            leftFace.reversePanelSeries(index);
+            rightFace.reversePanelSeries(index);
+        }
     }
 
     public void rotate(Rotation rotation, int index) {

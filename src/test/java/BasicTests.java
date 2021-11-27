@@ -1,17 +1,22 @@
-import concurrentcube.Color;
 import concurrentcube.Cube;
 import org.junit.Test;
 
-import concurrentcube.Face;
+import java.util.function.Supplier;
 
 public class BasicTests {
     @Test
     public void test_constructor() {
-        Cube cube = new Cube(3, (x, y) -> {}, (x,  y) -> {}, () -> {}, () -> {});
+        Supplier<Cube> cube_supplier = () -> new Cube(3, (x, y) -> {}, (x, y) -> {}, () -> {}, () -> {});
         try  {
-            System.out.println(cube.show());
-            cube.rotate(2, 0);
-            System.out.println(cube.show());
+            for (int side = 0; side < 6; side++) {
+                for (int layer = 0; layer < 3; layer++) {
+                    System.out.println("ROTATING: SIDE " + side + " LAYER " + layer);
+                    Cube cube = cube_supplier.get();
+                    cube.show();
+                    cube.rotate(side, layer);
+                    cube.show();
+                }
+            }
         }
         catch (InterruptedException ignored) {
         }

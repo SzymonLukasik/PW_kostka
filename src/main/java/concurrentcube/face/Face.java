@@ -1,4 +1,6 @@
-package concurrentcube;
+package concurrentcube.face;
+
+import concurrentcube.Color;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -25,8 +27,24 @@ public class Face {
             .collect(Collectors.toCollection(ArrayList::new)));
     }
 
+    public ArrayList<PanelSeries> getPanels() {
+        return panels;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setPanels(ArrayList<PanelSeries> panels) {
+        this.panels = panels;
+    }
+
     public StringBuilder toStringBuilder() {
         return panels.stream().map(PanelSeries::toStringBuilder)
             .reduce(new StringBuilder(), StringBuilder::append);
+    }
+
+    public StringBuilder getRowPrettyStringBuilder(int index) {
+        return panels.get(index).toPrettyStringBuilder();
     }
 }

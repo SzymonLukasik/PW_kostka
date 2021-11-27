@@ -8,7 +8,7 @@ public enum Rotation {
         switch (direction) {
             case Up:
             case Left:
-            case Front:
+            case Back:
                 return Clockwise;
             default:
                 return AntiClockwise;

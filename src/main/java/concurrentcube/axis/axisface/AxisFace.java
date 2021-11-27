@@ -1,4 +1,6 @@
-package concurrentcube;
+package concurrentcube.axis.axisface;
+
+import concurrentcube.face.Face;
 
 public abstract class AxisFace {
     protected final Face face;
@@ -6,6 +8,6 @@ public abstract class AxisFace {
 
     public AxisFace(Face face) {
         this.face = face;
-        this.size = face.size;
+        this.size = face.getSize();
     }
 }
