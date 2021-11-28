@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class SequentialCube {
-    private final int size;
+    protected final int size;
     private final EnumMap<Direction, Face> faces;
     private final Axis upAxis, leftAxis, frontAxis;
     public SequentialCube(int size) {

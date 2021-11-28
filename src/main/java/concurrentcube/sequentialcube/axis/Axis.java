@@ -99,9 +99,9 @@ public class Axis {
 
     public void rotate(Rotation rotation, int layer) {
         int index = getIndex(rotation, layer);
-        if (index == 0)
+        if (index == clockwiseIndexGetter.apply(0))
             frontFace.rotate(rotation);
-        else if (index == size - 1)
+        else if (index == clockwiseIndexGetter.apply(size - 1))
             backFace.rotate(rotation);
         rotateSeries(rotation, index);
     }
