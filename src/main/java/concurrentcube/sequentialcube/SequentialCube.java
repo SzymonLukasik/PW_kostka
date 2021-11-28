@@ -21,6 +21,7 @@ public class SequentialCube {
     private final EnumMap<Direction, Face> faces;
     private final Axis upAxis, leftAxis, frontAxis;
     public SequentialCube(int size) {
+        assert size > 0 : "Size must be positive integer.";
         this.size = size;
         faces = Arrays.stream(Direction.values())
             .collect(Collectors.toMap(
@@ -47,7 +48,7 @@ public class SequentialCube {
         }
     }
 
-    private Axis getAxis(Direction direction) {
+    protected Axis getAxis(Direction direction) {
         switch (direction) {
             case Up:
             case Bottom:
@@ -60,7 +61,13 @@ public class SequentialCube {
         }
     }
 
-    public void rotateSequential(int side, int layer)  {
+    protected void checkRotateArguments(int side, int layer) {
+        assert side >= 0 && side < 6 : "Side must be an integer between 0 and 5.";
+        assert layer >= 0 && layer < size : "Layer must be an integer between 0 and size - 1.";
+    }
+
+    public void rotateSequential(int side, int layer) {
+        checkRotateArguments(side, layer);
         Direction direction = Direction.getDirection(side);
         Rotation rotation = Rotation.getRotation(direction);
         Axis axis = getAxis(direction);

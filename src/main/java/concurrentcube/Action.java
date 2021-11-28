@@ -22,6 +22,6 @@ public enum Action {
     }
 
     public boolean isAxisAction() {
-        return this != Show;
+        return this  != Show;
     }
 }

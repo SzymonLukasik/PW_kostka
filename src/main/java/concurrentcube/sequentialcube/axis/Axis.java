@@ -90,7 +90,7 @@ public class Axis {
         }
     }
 
-    private int getIndex(Rotation rotation, int layer) {
+    public int getIndex(Rotation rotation, int layer) {
         int clockwise_index = clockwiseIndexGetter.apply(layer);
         if (rotation == Rotation.Clockwise)
             return clockwise_index;

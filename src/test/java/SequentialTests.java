@@ -2,8 +2,6 @@ import concurrentcube.Cube;
 import org.junit.Test;
 import org.junit.Assert;
 
-import java.util.function.BiConsumer;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class SequentialTests {
@@ -17,6 +15,7 @@ public class SequentialTests {
             () -> {}
         );
     }
+
     @Test
     public void testEasyRotations() {
         int size = 2;
@@ -91,7 +90,7 @@ public class SequentialTests {
 
     @Test
     public void testReturnToInitialState() throws InterruptedException {
-        for (int size = 1; size <= 10; size++) {
+        for (int size = 200; size <= 200; size++) {
             Cube cube = getCube(size);
 
             StringBuilder solved = new StringBuilder();
