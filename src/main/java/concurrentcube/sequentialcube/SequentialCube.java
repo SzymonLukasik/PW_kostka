@@ -10,7 +10,6 @@ import concurrentcube.sequentialcube.face.VerticallyReversedFace;
 
 import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -20,7 +19,7 @@ import java.util.stream.Stream;
 public class SequentialCube {
     private final int size;
     private final EnumMap<Direction, Face> faces;
-    private final Axis upAxis, leftAxis, backAxis;
+    private final Axis upAxis, leftAxis, frontAxis;
     public SequentialCube(int size) {
         this.size = size;
         faces = Arrays.stream(Direction.values())
@@ -31,7 +30,7 @@ public class SequentialCube {
                 () -> new EnumMap<>(Direction.class)));
         upAxis = Axis.getUpAxis(size, faces);
         leftAxis = Axis.getLeftAxis(size, faces);
-        backAxis = Axis.getBackAxis(size, faces);
+        frontAxis = Axis.getFrontAxis(size, faces);
     }
 
     private Face initializeFace(Direction side) {
@@ -57,25 +56,18 @@ public class SequentialCube {
             case Right:
                 return leftAxis;
             default:
-                return backAxis;
+                return frontAxis;
         }
     }
 
-    private int getIndex(Rotation rotation, int layer) {
-        if (rotation == Rotation.AntiClockwise)
-            return size - 1 - layer;
-        return layer;
-    }
-
-    public void rotate(int side, int layer) throws InterruptedException {
+    public void rotateSequential(int side, int layer)  {
         Direction direction = Direction.getDirection(side);
         Rotation rotation = Rotation.getRotation(direction);
         Axis axis = getAxis(direction);
-        int index = getIndex(rotation, layer);
-        axis.rotate(rotation, index);
+        axis.rotate(rotation, layer);
     }
 
-    public String show() throws InterruptedException {
+    public String showSequential() {
         System.out.println(toPrettyStringBuilder());
         return toStringBuilder().toString();
     }

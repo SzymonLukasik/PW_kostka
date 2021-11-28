@@ -9,17 +9,22 @@ import concurrentcube.sequentialcube.enums.Rotation;
 import concurrentcube.sequentialcube.face.Face;
 
 import java.util.EnumMap;
+import java.util.function.Function;
+import java.util.function.IntFunction;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class Axis {
     private final int size;
     private final CenterAxisFace frontFace, backFace;
     private final SideAxisFace upFace, rightFace, bottomFace, leftFace;
+    private final Function<Integer, Integer> clockwiseIndexGetter;
 
     public Axis(int size,
                 CenterAxisFace frontFace, CenterAxisFace backFace,
                 SideAxisFace upFace, SideAxisFace rightFace,
-                SideAxisFace bottomFace, SideAxisFace leftFace) {
+                SideAxisFace bottomFace, SideAxisFace leftFace,
+                Function<Integer, Integer> clockwiseIndexGetter) {
         this.size = size;
         this.frontFace = frontFace;
         this.backFace = backFace;
@@ -27,6 +32,7 @@ public class Axis {
         this.rightFace = rightFace;
         this.bottomFace = bottomFace;
         this.leftFace = leftFace;
+        this.clockwiseIndexGetter = clockwiseIndexGetter;
     }
 
     public static Axis getUpAxis(int size, EnumMap<Direction, Face> faces) {
@@ -36,7 +42,8 @@ public class Axis {
             new RowAxisFace(faces.get(Direction.Back)),
             new RowAxisFace(faces.get(Direction.Right)),
             new RowAxisFace(faces.get(Direction.Front)),
-            new RowAxisFace(faces.get(Direction.Left)));
+            new RowAxisFace(faces.get(Direction.Left)),
+            Function.identity());
     }
 
     public static Axis getLeftAxis(int size, EnumMap<Direction, Face> faces) {
@@ -46,28 +53,29 @@ public class Axis {
             new ColumnAxisFace(faces.get(Direction.Up)),
             new ColumnAxisFace(faces.get(Direction.Front)),
             new ColumnAxisFace(faces.get(Direction.Bottom)),
-            new ColumnAxisFace(faces.get(Direction.Back)));
+            new ColumnAxisFace(faces.get(Direction.Back)),
+            Function.identity());
     }
 
-    public static Axis getBackAxis(int size, EnumMap<Direction, Face> faces) {
+    public static Axis getFrontAxis(int size, EnumMap<Direction, Face> faces) {
         return new Axis(size,
-            new CenterAxisFace(faces.get(Direction.Back)),
             new CenterAxisFace(faces.get(Direction.Front)),
+            new CenterAxisFace(faces.get(Direction.Back)),
             new RowAxisFace(faces.get(Direction.Up)),
-            new ColumnAxisFace(faces.get(Direction.Left)),
+            new ColumnAxisFace(faces.get(Direction.Right)),
             new RowAxisFace(faces.get(Direction.Bottom)),
-            new ColumnAxisFace(faces.get(Direction.Right)));
+            new ColumnAxisFace(faces.get(Direction.Left)),
+            layer -> size - 1 - layer);
     }
 
-
-    public Stream<SideAxisFace> getRotationFacesStream(Rotation rotation) {
+    private Stream<SideAxisFace> getRotationFacesStream(Rotation rotation) {
         if (rotation == Rotation.Clockwise)
             return Stream.of(rightFace, bottomFace, leftFace, upFace);
         else
             return Stream.of(leftFace, bottomFace, rightFace, upFace);
     }
 
-    public void rotateSeries(Rotation rotation, int index) {
+    private void rotateSeries(Rotation rotation, int index) {
         getRotationFacesStream(rotation)
             .reduce(
                 upFace.getPanelSeries(index),
@@ -82,7 +90,15 @@ public class Axis {
         }
     }
 
-    public void rotate(Rotation rotation, int index) {
+    private int getIndex(Rotation rotation, int layer) {
+        int clockwise_index = clockwiseIndexGetter.apply(layer);
+        if (rotation == Rotation.Clockwise)
+            return clockwise_index;
+        return size - 1 - clockwise_index;
+    }
+
+    public void rotate(Rotation rotation, int layer) {
+        int index = getIndex(rotation, layer);
         if (index == 0)
             frontFace.rotate(rotation);
         else if (index == size - 1)
