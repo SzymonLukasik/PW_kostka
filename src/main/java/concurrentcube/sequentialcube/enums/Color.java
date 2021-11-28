@@ -1,4 +1,4 @@
-package concurrentcube;
+package concurrentcube.sequentialcube.enums;
 
 public enum Color {
     White("\u001b[48;5;231m"),

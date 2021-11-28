@@ -1,8 +1,8 @@
-package concurrentcube.axis.axisface;
+package concurrentcube.sequentialcube.axis.axisface;
 
-import concurrentcube.Color;
-import concurrentcube.face.Face;
-import concurrentcube.face.PanelSeries;
+import concurrentcube.sequentialcube.enums.Color;
+import concurrentcube.sequentialcube.face.Face;
+import concurrentcube.sequentialcube.face.PanelSeries;
 
 import java.util.ListIterator;
 

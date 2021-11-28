@@ -1,11 +1,12 @@
-package concurrentcube.axis;
+package concurrentcube.sequentialcube.axis;
 
-import concurrentcube.*;
-import concurrentcube.axis.axisface.CenterAxisFace;
-import concurrentcube.axis.axisface.ColumnAxisFace;
-import concurrentcube.axis.axisface.RowAxisFace;
-import concurrentcube.axis.axisface.SideAxisFace;
-import concurrentcube.face.Face;
+import concurrentcube.sequentialcube.axis.axisface.CenterAxisFace;
+import concurrentcube.sequentialcube.axis.axisface.ColumnAxisFace;
+import concurrentcube.sequentialcube.axis.axisface.RowAxisFace;
+import concurrentcube.sequentialcube.axis.axisface.SideAxisFace;
+import concurrentcube.sequentialcube.enums.Direction;
+import concurrentcube.sequentialcube.enums.Rotation;
+import concurrentcube.sequentialcube.face.Face;
 
 import java.util.EnumMap;
 import java.util.stream.Stream;

@@ -1,8 +1,6 @@
-package concurrentcube.face;
+package concurrentcube.sequentialcube.face;
 
-import concurrentcube.Color;
-import concurrentcube.face.Face;
-import concurrentcube.face.PanelSeries;
+import concurrentcube.sequentialcube.enums.Color;
 
 import java.util.ListIterator;
 
@@ -19,7 +17,6 @@ public class VerticallyReversedFace extends Face {
         while (row_iterator.hasPrevious()) {
             for (Color panel : row_iterator.previous().getPanels())
                 s.append(panel);
-            s.append("\n");
         }
         return s;
     }

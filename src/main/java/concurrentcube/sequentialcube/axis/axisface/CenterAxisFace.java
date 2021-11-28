@@ -1,8 +1,8 @@
-package concurrentcube.axis.axisface;
+package concurrentcube.sequentialcube.axis.axisface;
 
-import concurrentcube.face.Face;
-import concurrentcube.face.PanelSeries;
-import concurrentcube.Rotation;
+import concurrentcube.sequentialcube.face.Face;
+import concurrentcube.sequentialcube.face.PanelSeries;
+import concurrentcube.sequentialcube.enums.Rotation;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;

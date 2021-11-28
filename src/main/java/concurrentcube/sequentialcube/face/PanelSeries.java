@@ -1,26 +1,26 @@
-package concurrentcube.face;
+package concurrentcube.sequentialcube.face;
 
-import concurrentcube.Color;
+import concurrentcube.sequentialcube.enums.Color;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class PanelSeries {
-    private ArrayList<concurrentcube.Color> panels;
+    private ArrayList<Color> panels;
 
-    public PanelSeries(ArrayList<concurrentcube.Color> panels) {
+    public PanelSeries(ArrayList<Color> panels) {
         this.panels = panels;
     }
 
-    public ArrayList<concurrentcube.Color> getPanels() {
+    public ArrayList<Color> getPanels() {
         return panels;
     }
 
-    public concurrentcube.Color getPanel(int index) {
+    public Color getPanel(int index) {
         return panels.get(index);
     }
 
-    public void setPanel(int index, concurrentcube.Color color) {
+    public void setPanel(int index, Color color) {
         panels.set(index, color);
     }
 
@@ -29,7 +29,7 @@ public class PanelSeries {
     }
 
     public static void swap(PanelSeries s1, PanelSeries s2) {
-        ArrayList<concurrentcube.Color> temp = s1.panels;
+        ArrayList<Color> temp = s1.panels;
         s1.panels = s2.panels;
         s2.panels = temp;
     }
@@ -38,8 +38,7 @@ public class PanelSeries {
         return panels.stream().collect(
             StringBuilder::new,
             StringBuilder::append,
-            StringBuilder::append)
-            .append("\n");
+            StringBuilder::append);
     }
 
     public StringBuilder toPrettyStringBuilder() {

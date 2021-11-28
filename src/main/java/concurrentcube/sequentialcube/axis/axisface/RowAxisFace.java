@@ -1,7 +1,7 @@
-package concurrentcube.axis.axisface;
+package concurrentcube.sequentialcube.axis.axisface;
 
-import concurrentcube.face.Face;
-import concurrentcube.face.PanelSeries;
+import concurrentcube.sequentialcube.face.Face;
+import concurrentcube.sequentialcube.face.PanelSeries;
 
 public class RowAxisFace extends SideAxisFace {
     public RowAxisFace(Face face) {

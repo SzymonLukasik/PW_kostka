@@ -1,4 +1,4 @@
-package concurrentcube;
+package concurrentcube.sequentialcube.enums;
 
 public enum Rotation {
     Clockwise,

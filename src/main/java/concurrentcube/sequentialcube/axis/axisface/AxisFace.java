@@ -1,6 +1,6 @@
-package concurrentcube.axis.axisface;
+package concurrentcube.sequentialcube.axis.axisface;
 
-import concurrentcube.face.Face;
+import concurrentcube.sequentialcube.face.Face;
 
 public abstract class AxisFace {
     protected final Face face;

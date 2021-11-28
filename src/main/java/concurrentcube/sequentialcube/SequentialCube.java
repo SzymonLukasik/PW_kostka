@@ -1,9 +1,12 @@
-package concurrentcube;
+package concurrentcube.sequentialcube;
 
-import concurrentcube.axis.Axis;
-import concurrentcube.face.Face;
-import concurrentcube.face.HorizontallyReversedFace;
-import concurrentcube.face.VerticallyReversedFace;
+import concurrentcube.sequentialcube.enums.Color;
+import concurrentcube.sequentialcube.enums.Direction;
+import concurrentcube.sequentialcube.enums.Rotation;
+import concurrentcube.sequentialcube.axis.Axis;
+import concurrentcube.sequentialcube.face.Face;
+import concurrentcube.sequentialcube.face.HorizontallyReversedFace;
+import concurrentcube.sequentialcube.face.VerticallyReversedFace;
 
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -14,15 +17,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class Cube {
+public class SequentialCube {
     private final int size;
     private final EnumMap<Direction, Face> faces;
     private final Axis upAxis, leftAxis, backAxis;
-    public Cube(int size,
-                BiConsumer<Integer, Integer> beforeRotation,
-                BiConsumer<Integer, Integer> afterRotation,
-                Runnable beforeShowing,
-                Runnable afterShowing) {
+    public SequentialCube(int size) {
         this.size = size;
         faces = Arrays.stream(Direction.values())
             .collect(Collectors.toMap(

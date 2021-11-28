@@ -1,6 +1,6 @@
-package concurrentcube.face;
+package concurrentcube.sequentialcube.face;
 
-import concurrentcube.Color;
+import concurrentcube.sequentialcube.enums.Color;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
